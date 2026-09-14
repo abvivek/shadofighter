@@ -42,9 +42,42 @@ Do this once on your computer after the Editor has opened the project.
 6. If Unity shows a **pending connection**, allow it in **Window → AI Game Developer**.
 7. Reload Cursor (Command Palette → **Developer: Reload Window**) if tools do not appear after enabling.
 
-You should then see Unity MCP tools in chat (scene, GameObject, console, and similar). Ask something concrete such as: *List the open scenes* or *Create a cube named TestCube*.
+You should then see Unity MCP tools in chat (scene, GameObject, console, and similar). Ask something concrete such as: *List the open scenes*.
 
 Leave the Unity Editor running while you use those tools.
+
+## Stack (local, deterministic)
+
+| | |
+| --- | --- |
+| Engine | Unity 6.6 (`6000.6.0f1`) |
+| Language | C# |
+| Platform | Android |
+| Rendering | Unity 2D (URP later if 2D lights need it) |
+| Input | Unity Input System |
+| Animation | Unity Animator + 2D Animation |
+| Physics | Unity 2D Physics |
+| Data | ScriptableObjects + JSON |
+| Save | `Application.persistentDataPath` only |
+| Backend / DB | None |
+
+Keep gameplay deterministic and local. Add a backend only when a feature actually requires one.
+
+## Assets layout
+
+```
+Assets/
+├── Art/            Characters, Enemies, Weapons, Environments, UI
+├── Audio/          Music, SFX, Voice
+├── Animations/
+├── Prefabs/        Characters, Enemies, Weapons, VFX, UI
+├── Scenes/         Bootstrap, MainMenu, CharacterSelect, Story, Fight, Training
+├── Scripts/        Core, Combat, Characters, AI, Weapons, Progression, Save, UI, Audio, VFX
+├── ScriptableObjects/  Characters, Attacks, Weapons, Abilities, Levels
+└── Tests/          EditMode, PlayMode
+```
+
+Build settings load **Bootstrap** first, then Main Menu → Character Select → Story → Fight → Training. Each scene is an empty 2D orthographic camera. `SampleScene` was removed.
 
 ## What this repo already contains
 
@@ -52,7 +85,7 @@ Leave the Unity Editor running while you use those tools.
 | --- | --- |
 | `Packages/manifest.json` | Unity 6.6 packages plus `com.ivanmurzak.unity.mcp` 0.90.0 and the OpenUPM scoped registry |
 | `.cursor/mcp.json` | Project MCP entry for Cursor (`ai-game-developer` → local HTTP) |
-| `Assets/Scenes/SampleScene.unity` | Empty starter scene (camera + light) |
+| `Assets/Scenes/*.unity` | Bootstrap, MainMenu, CharacterSelect, Story, Fight, Training |
 | `ProjectSettings/ProjectVersion.txt` | Pins the editor to **6000.6.0f1** |
 
 Official Unity MCP (`com.unity.ai.assistant`) needs Unity Cloud and an AI tools subscription, and current Unity docs mark that MCP server as deprecated. This project uses the maintained [IvanMurzak Unity-MCP](https://github.com/IvanMurzak/Unity-MCP) package instead.
