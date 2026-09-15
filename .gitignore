@@ -73,6 +73,7 @@ InitTestScene*.unity*
 /UIElementsSchema/
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
-# Keep Cursor project MCP config; ignore other local Cursor junk
+# Cursor: track MCP config for the canonical Windows path D:\Projects\Shadofighter
 .cursor/*
 !.cursor/mcp.json
+!.cursor/mcp.json.example
